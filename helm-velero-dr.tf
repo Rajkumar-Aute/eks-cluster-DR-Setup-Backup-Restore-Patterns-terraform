@@ -1,4 +1,5 @@
 resource "helm_release" "velero_dr" {
+  count            = var.create_dr_cluster ? 1 : 0
   provider         = helm.dr
   name             = "velero"
   repository       = "https://vmware-tanzu.github.io/helm-charts"

@@ -10,10 +10,22 @@ variable "dr_region" {
 
 variable "kubernetes_version" {
   type        = string
-  description = "Kubernetes version (e.g., 1.31)"
+  description = "Kubernetes version for EKS clusters"
 }
 
 variable "velero_chart_version" {
   type        = string
   description = "Helm chart version for Velero"
+}
+
+variable "create_primary_cluster" {
+  type        = bool
+  description = "Toggle to create the Primary EKS Cluster"
+  default     = true
+}
+
+variable "create_dr_cluster" {
+  type        = bool
+  description = "Toggle to create the DR EKS Cluster"
+  default     = true
 }

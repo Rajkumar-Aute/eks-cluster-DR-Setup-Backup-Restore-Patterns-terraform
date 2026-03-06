@@ -30,36 +30,35 @@ provider "aws" {
 # Primary Kubernetes Provider
 provider "kubernetes" {
   alias                  = "primary"
-  host                   = module.eks_primary.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks_primary.cluster_certificate_authority_data)
+  host                   = try(module.eks_primary[0].cluster_endpoint, "https://localhost")
+  cluster_ca_certificate = try(base64decode(module.eks_primary[0].cluster_certificate_authority_data), "")
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "aws"
-    args        = ["eks", "get-token", "--cluster-name", module.eks_primary.cluster_name, "--region", var.primary_region]
+    args        = ["eks", "get-token", "--cluster-name", try(module.eks_primary[0].cluster_name, ""), "--region", var.primary_region]
   }
 }
 
 provider "kubernetes" {
-  alias = "dr"
-  host                   = module.eks_dr.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks_dr.cluster_certificate_authority_data)
+  alias                  = "dr"
+  host                   = try(module.eks_dr[0].cluster_endpoint, "https://localhost")
+  cluster_ca_certificate = try(base64decode(module.eks_dr[0].cluster_certificate_authority_data), "")
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "aws"
-    # Ensure this matches the correct output attribute (cluster_name for v21)
-    args = ["eks", "get-token", "--cluster-name", module.eks_dr.cluster_name, "--region", var.dr_region]
+    args        = ["eks", "get-token", "--cluster-name", try(module.eks_dr[0].cluster_name, ""), "--region", var.dr_region]
   }
 }
 
 provider "helm" {
   alias = "primary"
   kubernetes {
-    host                   = module.eks_primary.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks_primary.cluster_certificate_authority_data)
+    host                   = try(module.eks_primary[0].cluster_endpoint, "https://localhost")
+    cluster_ca_certificate = try(base64decode(module.eks_primary[0].cluster_certificate_authority_data), "")
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
       command     = "aws"
-      args        = ["eks", "get-token", "--cluster-name", module.eks_primary.cluster_name, "--region", var.primary_region]
+      args        = ["eks", "get-token", "--cluster-name", try(module.eks_primary[0].cluster_name, ""), "--region", var.primary_region]
     }
   }
 }
@@ -67,12 +66,12 @@ provider "helm" {
 provider "helm" {
   alias = "dr"
   kubernetes {
-    host                   = module.eks_dr.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks_dr.cluster_certificate_authority_data)
+    host                   = try(module.eks_dr[0].cluster_endpoint, "https://localhost")
+    cluster_ca_certificate = try(base64decode(module.eks_dr[0].cluster_certificate_authority_data), "")
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
       command     = "aws"
-      args        = ["eks", "get-token", "--cluster-name", module.eks_dr.cluster_name, "--region", var.dr_region]
+      args        = ["eks", "get-token", "--cluster-name", try(module.eks_dr[0].cluster_name, ""), "--region", var.dr_region]
     }
   }
 }

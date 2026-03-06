@@ -1,4 +1,5 @@
 resource "helm_release" "velero_primary" {
+  count            = var.create_primary_cluster ? 1 : 0
   provider         = helm.primary
   name             = "velero"
   repository       = "https://vmware-tanzu.github.io/helm-charts"
@@ -46,5 +47,9 @@ resource "helm_release" "velero_primary" {
         }
       }
     })
+  ]
+  depends_on = [
+    module.eks_primary,
+    aws_eks_pod_identity_association.velero_primary
   ]
 }
