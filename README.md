@@ -22,11 +22,12 @@ git clone https://github.com/Rajkumar-Aute/eks-cluster-DR-Setup-Active-Passive-P
 cd eks-cluster-DR-Setup-Active-Passive-Patterns-terraform
 terraform init
 terraform plan --var-file=learning.tfvars
-# to create both primary and DR cluster
-terraform apply --var-file=learning.tfvars
 
 # to create only primary cluster
-terraform apply --var-file=learning.tfvars -var="create_dr_cluster=false"
+# Backup & Restore DR Patterns
+terraform apply --var-file=learning.tfvars -var=create_dr_cluster=false
+# After taking backup, run below command, it will start second region cluster and test the restore and running applications.
+terraform apply --var-file=learning.tfvars
 # Type yes when prompted.
 ```
 
