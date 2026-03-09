@@ -1,4 +1,4 @@
-# Multi-Region EKS Disaster Recovery active-passive with Velero and Terraform
+# Multi-Region EKS Disaster Recovery Backup Restore with Velero and Terraform
 
 In modern DevSecOps, hoping an AWS region never goes down isn't a disaster recovery strategy. Whether mitigating the blast radius of a regional outage or defending against ransomware, having a verified cross-region recovery plan is critical.
 
