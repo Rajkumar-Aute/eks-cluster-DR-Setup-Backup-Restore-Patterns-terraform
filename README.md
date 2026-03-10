@@ -2,12 +2,12 @@
 
 In modern DevSecOps, hoping an AWS region never goes down isn't a disaster recovery strategy. Whether mitigating the blast radius of a regional outage or defending against ransomware, having a verified cross-region recovery plan is critical.
 
-This lab demonstrates how to build a fully automated, Backup Restore disaster recovery setup for Amazon EKS using Terraform and Velero. We will provision a primary cluster in __us-east-1__ and a standby DR cluster in __us-east-2__. By leveraging modern best practices such as EKS Pod Identity and automated StorageClass translation—we ensure stateful workloads can be seamlessly revived in a new region.
+This lab demonstrates how to build a fully automated, Backup Restore disaster recovery setup for Amazon EKS using Terraform and Velero. We will provision a primary cluster in __us-east-1__ and a standby DR cluster in __us-east-2__. By leveraging modern best practices such as EKS Pod Identity and automated StorageClass translation we ensure stateful workloads can be seamlessly revived in a new region.
 
 ## Environment Specifications
 
 * Primary Region: us-east-1
-* Disaster Recovery (DR) Region: us-west-2
+* Disaster Recovery (DR) Region: us-east-2
 * Kubernetes Version: 1.35
 * Velero Helm Chart Version: 7.2.2
 
